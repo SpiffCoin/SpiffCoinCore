@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+#
+#  spiffcoind The spiffcoin core server.
+#
+#
+# chkconfig: 345 80 20
+# description: spiffcoind
+# processname: spiffcoind
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/spiffcoind, see below
+if [ -f /etc/sysconfig/spiffcoind ]; then
+        . /etc/sysconfig/spiffcoind
+fi
+
+RETVAL=0
+
+prog=spiffcoind
+# you can override the lockfile via BITCOIND_LOCKFILE in /etc/sysconfig/spiffcoind
+lockfile=${BITCOIND_LOCKFILE-/var/lock/subsys/spiffcoind}
+
+# spiffcoind defaults to /usr/bin/spiffcoind, override with BITCOIND_BIN
+spiffcoind=${BITCOIND_BIN-/usr/bin/spiffcoind}
+
+# spiffcoind opts default to -disablewallet, override with BITCOIND_OPTS
+spiffcoind_opts=${BITCOIND_OPTS--disablewallet}
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon $DAEMONOPTS $spiffcoind $spiffcoind_opts
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog -t600
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac

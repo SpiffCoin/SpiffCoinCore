@@ -1,0 +1,33 @@
+# /etc/conf.d/spiffcoind: config file for /etc/init.d/spiffcoind
+
+# Config file location
+#BITCOIND_CONFIGFILE="/etc/spiffcoin/spiffcoin.conf"
+
+# What directory to write pidfile to?  (created and owned by $BITCOIND_USER)
+#BITCOIND_PIDDIR="/var/run/spiffcoind"
+
+# What filename to give the pidfile
+#BITCOIND_PIDFILE="${BITCOIND_PIDDIR}/spiffcoind.pid"
+
+# Where to write spiffcoind data (be mindful that the blockchain is large)
+#BITCOIND_DATADIR="/var/lib/spiffcoind"
+
+# User and group to own spiffcoind process
+#BITCOIND_USER="spiffcoin"
+#BITCOIND_GROUP="spiffcoin"
+
+# Path to spiffcoind executable
+#BITCOIND_BIN="/usr/bin/spiffcoind"
+
+# Nice value to run spiffcoind under
+#BITCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+#BITCOIND_OPTS=""
+
+# The timeout in seconds OpenRC will wait for spiffcoind to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+BITCOIND_SIGTERM_TIMEOUT=600
